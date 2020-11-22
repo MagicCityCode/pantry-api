@@ -1,4 +1,18 @@
 import express from "express";
+import { Pool } from "pg";
+
+const pool = new Pool({
+  user: "app",
+  host: "localhost",
+  database: "pantry",
+  password: "!12a2Afom5",
+  port: 5432,
+});
+
+pool.query("SELECT NOW()", (err, res) => {
+  console.log(err, res);
+  pool.end();
+});
 
 const router = express.Router();
 
