@@ -2,11 +2,11 @@ import express from "express";
 import { Pool } from "pg";
 
 const pool = new Pool({
-  user: "app",
-  host: "localhost",
-  database: "pantry",
-  password: "!12a2Afom5",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_SCHEMA,
+  password: process.env.DB_PASS,
+  port: Number(process.env.DB_PORT),
 });
 
 pool.query("SELECT NOW()", (err, res) => {
