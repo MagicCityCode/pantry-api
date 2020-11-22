@@ -7,62 +7,62 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import express from 'express';
+import express from "express";
 const router = express.Router();
 // Get from /:id?
-router.get('/:id?', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.get("/:id?", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = Number(req.params.id);
     try {
         if (id) {
-            res.json('TEST FOOD GET ONE ' + id + ' SUCCESS');
+            res.json("TEST FOOD GET ONE " + id + " SUCCESS");
         }
         else {
-            res.json('TEST FOOD GET ALL SUCCESS');
+            res.json("TEST FOOD GET ALL SUCCESS");
         }
     }
-    catch (err) {
-        console.log(err);
-        res.status(500).json({ msg: 'There was an error', err });
+    catch (e) {
+        console.log(e);
+        res.status(500).json({ msg: "Code bad", e });
     }
 }));
 // Post to /
-router.post('/', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.post("/", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const newFood = req.body;
     try {
         res.json({
-            'req.body': Object.assign({}, newFood),
-            msg: 'TEST FOOD POST SUCCESS'
+            "req.body": Object.assign({}, newFood),
+            msg: "TEST FOOD POST SUCCESS",
         });
     }
     catch (e) {
         console.log(e);
-        res.status(500).json({ msg: 'Code bad', e });
+        res.status(500).json({ msg: "Code bad", e });
     }
 }));
 // Put to /:id
-router.put('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.put("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = Number(req.params.id);
     const editedFood = req.body;
     try {
         res.json({
-            'req.body': Object.assign(Object.assign({}, editedFood), { id }),
-            msg: 'TEST FOOD EDIT SUCCESS'
+            "req.body": Object.assign(Object.assign({}, editedFood), { id }),
+            msg: "TEST FOOD EDIT SUCCESS",
         });
     }
     catch (e) {
         console.log(e);
-        res.status(500).json({ msg: 'Code bad', e });
+        res.status(500).json({ msg: "Code bad", e });
     }
 }));
 // Delete from /:id
-router.delete('/:id', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+router.delete("/:id", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const id = Number(req.params.id);
     try {
         res.json(`TEST DESTROY FOOD ${id} SUCCESS`);
     }
     catch (e) {
         console.log(e);
-        res.status(500).json({ msg: 'Code bad', e });
+        res.status(500).json({ msg: "Code bad", e });
     }
 }));
 export default router;

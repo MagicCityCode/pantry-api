@@ -11,9 +11,9 @@ router.get("/:id?", async (req, res) => {
     } else {
       res.json("TEST FOOD GET ALL SUCCESS");
     }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ msg: "There was an error", err });
+  } catch (e) {
+    console.log(e);
+    res.status(500).json({ msg: "Code bad", e });
   }
 });
 
