@@ -7,15 +7,16 @@ jobs:
     steps:
       - checkout
       - run: echo "Hellloooo!"
-  build:
+  test:
     docker:
       - image: cimg/node:15.2
     steps:
       - checkout
       - run: npm install
-      - run: CI=true npm start
+      - run: npm test
+
 workflows:
-  hello-build:
+  hello-test:
     jobs:
       - hello
-      - build
+      - test
