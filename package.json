@@ -10,7 +10,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npx pretty-quick --staged eslint--fix"
+      "pre-commit": "npx pretty-quick --staged && npx eslint--fix"
     }
   },
   "author": "MCC",
