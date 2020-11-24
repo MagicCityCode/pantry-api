@@ -1,74 +1,20 @@
 import express from "express";
-import { Pool } from "pg";
-
-const pool = new Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_SCHEMA,
-  password: process.env.DB_PASS,
-  port: Number(process.env.DB_PORT),
-});
-
-pool.query("SELECT NOW()", (err, res) => {
-  console.log(err, res);
-  pool.end();
-});
+// import users from "./controllers/users";
+// import foods from "./controllers/foods";
 
 const router = express.Router();
 
-// Get from /:id?
-router.get("/:id?", async (req, res) => {
-  const id = Number(req.params.id);
-  try {
-    if (id) {
-      res.json("TEST FOOD GET ONE " + id + " SUCCESS");
-    } else {
-      res.json("TEST FOOD GET ALL SUCCESS");
-    }
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ msg: "Code bad", e });
-  }
-});
-
-// Post to /
-router.post("/", async (req, res) => {
-  const newFood = req.body;
-  try {
-    res.json({
-      "req.body": { ...newFood },
-      msg: "TEST FOOD POST SUCCESS",
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ msg: "Code bad", e });
-  }
-});
-
-// Put to /:id
-router.put("/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  const editedFood = req.body;
-  try {
-    res.json({
-      "req.body": { ...editedFood, id },
-      msg: "TEST FOOD EDIT SUCCESS",
-    });
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ msg: "Code bad", e });
-  }
-});
-
-// Delete from /:id
-router.delete("/:id", async (req, res) => {
-  const id = Number(req.params.id);
-  try {
-    res.json(`TEST DESTROY FOOD ${id} SUCCESS`);
-  } catch (e) {
-    console.log(e);
-    res.status(500).json({ msg: "Code bad", e });
-  }
-});
+// router.get("/:id?", users.handleUsersGetAll);
+// router.get("/:id?", users.handleUsersGetOne);
+// router.get("/:id?", users.handleUsersGet);
+// router.get("/", foods.handleFoodsGetAll);
+// router.get("/:id", foods.handleFoodsGetOne);
+// router.get("/:id?", foods.handleFoodsGet);
+// router.post("/", users.handleUsersPost);
+// router.post("/", foods.handleFoodsPost);
+// router.put("/:id", users.handleUsersPut);
+// router.put("/:id", foods.handleFoodsPut);
+// router.delete("/:id", users.handleUsersDelete);
+// router.delete("/:id", foods.handleFoodsDelete);
 
 export default router;
