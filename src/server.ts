@@ -1,5 +1,5 @@
 import express from "express";
-import routes from "./routes.js";
+import routes from "./routes";
 import morgan from "morgan";
 import helmet from "helmet";
 import compression from "compression";
