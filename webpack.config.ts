@@ -1,28 +1,38 @@
-import path from "path";
-import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
+const webpack = require("webpack");
+const path = require("path");
+const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
+  .BundleAnalyzerPlugin;
+
+/**
+ * @todo Move to .env variable when ready for production
+ */
+const DEV = true;
 
 const config = {
-  entry: "./server.ts",
-  output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
-  },
+  entry: "./src/server.ts",
+  target: "node",
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.ts?$/,
+        exclude: /node_modules/,
         use: "babel-loader",
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.ts(x)?$/,
-        loader: "ts-loader",
-        exclude: /node_modules/,
       },
     ],
   },
   resolve: {
     extensions: [".ts", ".js"],
+    fallback: {
+      buffer: false,
+      crypto: false,
+      http: false,
+      path: false,
+      querystring: false,
+      stream: false,
+      url: false,
+      util: false,
+      zlib: false,
+    },
   },
   plugins: [
     new BundleAnalyzerPlugin({
@@ -30,6 +40,11 @@ const config = {
       openAnalyzer: false,
     }),
   ],
+  output: {
+    path: path.resolve(__dirname, "dist"),
+    filename: "bundle.js",
+  },
+  mode: DEV ? "development" : "production",
 };
 
-export default config;
+module.exports = config;
