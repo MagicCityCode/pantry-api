@@ -1,4 +1,4 @@
-import foodsQueries from "../../providers/foods";
+import foodsQueries from "../providers/foods";
 
 const handleFoodsGetAll = async (req: any, res: any, next: any) => {
   try {
