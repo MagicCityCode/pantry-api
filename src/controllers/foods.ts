@@ -3,8 +3,8 @@ import foodsQueries from "../providers/foods";
 const handleFoodsGetAll = async (req: any, res: any, next: any) => {
   try {
     const allFoods: any = await foodsQueries.readAll();
-    console.log(allFoods);
-    const all = allFoods.map((food: any) => {
+    // console.log(allFoods);
+    const all = allFoods.rows.map((food: any) => {
       return {
         id: food.id,
         name: food.name,
