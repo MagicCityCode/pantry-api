@@ -1,4 +1,4 @@
-import pool from "../db";
+import pool from "../db/db";
 
 // Soon abstract type to interface
 function createFood(
@@ -11,7 +11,7 @@ function createFood(
 ) {
   const queryCreateFood = new Promise(function (resolve, reject) {
     pool.query(
-      "INSERT INTO foods (name, type, grp, fam, category, color) VALUES ($1, $2, $3, $4, $5, $6);",
+      "INSERT INTO foods (name, type, grp, fam, category, color) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;",
       [name, type, grp, fam, category, color],
       function (err, result) {
         if (err) reject(err);
@@ -24,7 +24,7 @@ function createFood(
   return queryCreateFood;
 }
 
-function readFood(id?: number) {
+function readFoods(id?: number) {
   if (id) {
     const queryReadOneFood = new Promise(function (resolve, reject) {
       pool.query(
@@ -64,7 +64,7 @@ function updateFood(
 ) {
   const queryUpdateFood = new Promise(function (resolve, reject) {
     pool.query(
-      "UPDATE foods SET name = $1, type = $2, grp = $3, fam = $4, category = $5, color = $6 WHERE id = $7;",
+      "UPDATE foods SET name = $1, type = $2, grp = $3, fam = $4, category = $5, color = $6 WHERE id = $7 RETURNING *;",
       [name, type, grp, fam, category, color, id],
       function (err, result) {
         if (err) reject(err);
@@ -79,7 +79,7 @@ function updateFood(
 
 function deleteFood(id: number) {
   const queryDeleteFood = new Promise(function (resolve, reject) {
-    pool.query("DELETE FROM foods WHERE id = $1", [id], function (err, result) {
+    pool.query("DELETE FROM foods WHERE id = $1 RETURNING *;", [id], function (err, result) {
       if (err) reject(err);
       else {
         resolve(result);
@@ -91,7 +91,7 @@ function deleteFood(id: number) {
 
 export default {
   createFood,
-  readFood,
+  readFoods,
   updateFood,
   deleteFood,
 };
