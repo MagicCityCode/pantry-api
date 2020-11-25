@@ -1,0 +1,18 @@
+-- CREATE TABLE foods (
+--     id SERIAL NOT NULL PRIMARY KEY,
+--     name VARCHAR UNIQUE NOT NULL,
+--     type VARCHAR,
+--     grp VARCHAR,
+--     fam VARCHAR,
+--     category VARCHAR NOT NULL,
+--     color VARCHAR,
+--     _created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+-- CREATE TABLE users (
+--     id SERIAL NOT NULL PRIMARY KEY,
+--     username VARCHAR UNIQUE,
+--     role VARCHAR DEFAULT 'guest',
+--     email VARCHAR UNIQUE NOT NULL,
+--     pw VARCHAR NOT NULL,
+--     _created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
