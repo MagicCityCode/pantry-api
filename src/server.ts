@@ -1,9 +1,17 @@
+import dotenv from "dotenv";
 import express from "express";
-import routes from "./routes";
-import morgan from "morgan";
 import helmet from "helmet";
-import compression from "compression";
+import morgan from "morgan";
 import cors from "cors";
+import compression from "compression";
+import routes from "./routes";
+
+// debugger;
+const envFound = dotenv.config();
+
+if (!envFound) {
+  throw new Error("env file not found");
+}
 
 const app = express();
 
