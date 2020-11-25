@@ -1,7 +1,7 @@
 import pool from "../db";
 
 // Soon abstract type to interface
-function create(
+function createFood(
   name: string,
   type: string,
   grp: string,
@@ -9,7 +9,7 @@ function create(
   category: string,
   color: string
 ) {
-  const queryCreate = new Promise(function (resolve, reject) {
+  const queryCreateFood = new Promise(function (resolve, reject) {
     pool.query(
       "INSERT INTO foods (name, type, grp, fam, category, color) VALUES ($1, $2, $3, $4, $5, $6);",
       [name, type, grp, fam, category, color],
@@ -21,12 +21,12 @@ function create(
       }
     );
   });
-  return queryCreate;
+  return queryCreateFood;
 }
 
-function read(id?: number) {
+function readFood(id?: number) {
   if (id) {
-    const queryReadOne = new Promise(function (resolve, reject) {
+    const queryReadOneFood = new Promise(function (resolve, reject) {
       pool.query(
         "SELECT * FROM foods WHERE id = $1;",
         [id],
@@ -38,9 +38,9 @@ function read(id?: number) {
         }
       );
     });
-    return queryReadOne;
+    return queryReadOneFood;
   } else {
-    const queryReadAll = new Promise(function (resolve, reject) {
+    const queryReadAllFoods = new Promise(function (resolve, reject) {
       pool.query("SELECT * FROM foods;", function (err, results) {
         if (err) reject(err);
         else {
@@ -48,12 +48,12 @@ function read(id?: number) {
         }
       });
     });
-    return queryReadAll;
+    return queryReadAllFoods;
   }
 }
 
 // Soon abstract type to interface
-function update(
+function updateFood(
   name: string,
   type: string,
   grp: string,
@@ -62,7 +62,7 @@ function update(
   color: string,
   id: number
 ) {
-  const queryUpdate = new Promise(function (resolve, reject) {
+  const queryUpdateFood = new Promise(function (resolve, reject) {
     pool.query(
       "UPDATE foods SET name = $1, type = $2, grp = $3, fam = $4, category = $5, color = $6 WHERE id = $7;",
       [name, type, grp, fam, category, color, id],
@@ -74,11 +74,11 @@ function update(
       }
     );
   });
-  return queryUpdate;
+  return queryUpdateFood;
 }
 
-function destroy(id: number) {
-  const queryDestroy = new Promise(function (resolve, reject) {
+function deleteFood(id: number) {
+  const queryDeleteFood = new Promise(function (resolve, reject) {
     pool.query("DELETE FROM foods WHERE id = $1", [id], function (err, result) {
       if (err) reject(err);
       else {
@@ -86,12 +86,12 @@ function destroy(id: number) {
       }
     });
   });
-  return queryDestroy;
+  return queryDeleteFood;
 }
 
 export default {
-  create,
-  read,
-  update,
-  destroy,
+  createFood,
+  readFood,
+  updateFood,
+  deleteFood,
 };
