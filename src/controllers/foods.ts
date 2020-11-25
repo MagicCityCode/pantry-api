@@ -11,7 +11,7 @@ const handleFoodsPost = async (req: any, res: any, next: any) => {
       newFormEntry.category,
       newFormEntry.color
     );
-    return res.status(200).json(newFood);
+    return res.status(201).json(newFood);
   } catch (err) {
     console.log("handleFoodsPost [add filepath soon]", err);
     res.status(500).json({ msg: "Code not working", err });
@@ -23,7 +23,7 @@ const handleFoodsGet = async (req: any, res: any, next: any) => {
   try {
     const id = Number(req.params.id);
     if (id) {
-      const oneFood: any = await foodsQueries.readFood(id);
+      const oneFood: any = await foodsQueries.readFoods(id);
       const [one] = oneFood.rows.map((mappedFoodObj: any) => {
         return {
           id: mappedFoodObj.id,
@@ -38,7 +38,7 @@ const handleFoodsGet = async (req: any, res: any, next: any) => {
       });
       return res.status(200).json(one);
     } else {
-      const allFoods: any = await foodsQueries.readFood();
+      const allFoods: any = await foodsQueries.readFoods();
       const all = allFoods.rows.map((mappedFoodObj: any) => {
         return {
           id: mappedFoodObj.id,
@@ -84,8 +84,8 @@ const handleFoodsPut = async (req: any, res: any, next: any) => {
 const handleFoodsDelete = async (req: any, res: any, next: any) => {
   const id = Number(req.params.id);
   try {
-    const destroyedFood: any = await foodsQueries.deleteFood(id);
-    return res.status(200).json(destroyedFood);
+    const deletedFood: any = await foodsQueries.deleteFood(id);
+    return res.status(202).json(deletedFood);
   } catch (err) {
     console.log("handleFoodsDelete [add filepath soon]", err);
     res.status(500).json({ msg: "Code not working", err });
