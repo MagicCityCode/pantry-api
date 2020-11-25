@@ -1,7 +1,6 @@
-const webpack = require("webpack");
+const { IgnorePlugin } = require("webpack");
 const path = require("path");
-const BundleAnalyzerPlugin = require("webpack-bundle-analyzer")
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 
 /**
  * @todo Move to .env variable when ready for production
@@ -38,6 +37,9 @@ const config = {
     new BundleAnalyzerPlugin({
       analyzerMode: "static",
       openAnalyzer: false,
+    }),
+    new IgnorePlugin({
+      resourceRegExp: /^pg-native$/,
     }),
   ],
   output: {
