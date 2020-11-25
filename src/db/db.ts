@@ -7,4 +7,3 @@ const pool = new pg.Pool({
   port: Number(process.env.PGPORT),
 });
 export default pool;
-// Add schema code
