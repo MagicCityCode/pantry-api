@@ -3,7 +3,7 @@ import foodsQueries from "../providers/foods";
 const handleFoodsPost = async (req: any, res: any, next: any) => {
   const newFormEntry = req.body;
   try {
-    const newFood: any = await foodsQueries.create(
+    const newFood: any = await foodsQueries.createFood(
       newFormEntry.name,
       newFormEntry.type,
       newFormEntry.grp,
@@ -23,7 +23,7 @@ const handleFoodsGet = async (req: any, res: any, next: any) => {
   try {
     const id = Number(req.params.id);
     if (id) {
-      const oneFood: any = await foodsQueries.read(id);
+      const oneFood: any = await foodsQueries.readFood(id);
       const [one] = oneFood.rows.map((mappedFoodObj: any) => {
         return {
           id: mappedFoodObj.id,
@@ -38,7 +38,7 @@ const handleFoodsGet = async (req: any, res: any, next: any) => {
       });
       return res.status(200).json(one);
     } else {
-      const allFoods: any = await foodsQueries.read();
+      const allFoods: any = await foodsQueries.readFood();
       const all = allFoods.rows.map((mappedFoodObj: any) => {
         return {
           id: mappedFoodObj.id,
@@ -64,7 +64,7 @@ const handleFoodsPut = async (req: any, res: any, next: any) => {
   const id = Number(req.params.id);
   const updatedFormEntry = req.body;
   try {
-    const updatedFood: any = await foodsQueries.update(
+    const updatedFood: any = await foodsQueries.updateFood(
       updatedFormEntry.name,
       updatedFormEntry.type,
       updatedFormEntry.grp,
@@ -84,7 +84,7 @@ const handleFoodsPut = async (req: any, res: any, next: any) => {
 const handleFoodsDelete = async (req: any, res: any, next: any) => {
   const id = Number(req.params.id);
   try {
-    const destroyedFood: any = await foodsQueries.destroy(id);
+    const destroyedFood: any = await foodsQueries.deleteFood(id);
     return res.status(200).json(destroyedFood);
   } catch (err) {
     console.log("handleFoodsDelete [add filepath soon]", err);
