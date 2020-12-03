@@ -1,4 +1,5 @@
 import pg from "pg";
+
 const pool = new pg.Pool({
   user: process.env.PGUSER,
   host: process.env.PGHOST,
@@ -6,4 +7,7 @@ const pool = new pg.Pool({
   password: process.env.PGPASS,
   port: Number(process.env.PGPORT),
 });
+
 export default pool;
+
+// Move to config soon
