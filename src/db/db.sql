@@ -4,10 +4,24 @@ CREATE TABLE ingredients (
     id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR UNIQUE NOT NULL,
     shelf_life VARCHAR,
+    -- On 12/02/20 Changed shelf_life data type to DECIMAL
+    -- On 12/02/20 Added col shelf_life_unit VARCHAR(30)
     storage VARCHAR DEFAULT 'refrigerator',
     uom VARCHAR,
     _created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 12/02/20
+ALTER TABLE
+    ingredients
+ALTER COLUMN
+    shelf_life TYPE decimal USING shelf_life :: numeric;
+
+-- 12/02/20
+ALTER TABLE
+    ingredients
+ADD
+    COLUMN shelf_life_unit varchar(30); -- Later can add default value of "days" but for now, will assume all unspecified inputs are in days
 
 DROP TABLE IF EXISTS users;
 

@@ -6,6 +6,7 @@ const handleIngredientsPost = async (req: any, res: any, next: any) => {
     const newIngredient: any = await ingredientsQueries.createIngredient(
       newFormEntry.name,
       newFormEntry.shelf_life,
+      newFormEntry.shelf_life_unit,
       newFormEntry.storage,
       newFormEntry.uom
     );
@@ -27,6 +28,7 @@ const handleIngredientsGet = async (req: any, res: any, next: any) => {
           id: mappedIngredientObj.id,
           name: mappedIngredientObj.name,
           shelf_life: mappedIngredientObj.shelf_life,
+          shelf_life_unit: mappedIngredientObj.shelf_life_unit,
           storage: mappedIngredientObj.storage,
           uom: mappedIngredientObj.uom,
           _created: mappedIngredientObj._created,
@@ -40,6 +42,7 @@ const handleIngredientsGet = async (req: any, res: any, next: any) => {
           id: mappedIngredientObj.id,
           name: mappedIngredientObj.name,
           shelf_life: mappedIngredientObj.shelf_life,
+          shelf_life_unit: mappedIngredientObj.shelf_life_unit,
           storage: mappedIngredientObj.storage,
           uom: mappedIngredientObj.uom,
           _created: mappedIngredientObj._created,
@@ -61,6 +64,7 @@ const handleIngredientsPut = async (req: any, res: any, next: any) => {
     const updatedIngredient: any = await ingredientsQueries.updateIngredient(
       updatedFormEntry.name,
       updatedFormEntry.shelf_life,
+      updatedFormEntry.shelf_life_unit,
       updatedFormEntry.storage,
       updatedFormEntry.uom,
       id

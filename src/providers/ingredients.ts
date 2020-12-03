@@ -2,14 +2,15 @@ import pool from "../db";
 
 function createIngredient(
   name: string,
-  shelf_life: string,
+  shelf_life: number,
+  shelf_life_unit: string,
   storage: string,
   uom: string
 ) {
   const queryCreateIngredient = new Promise(function (resolve, reject) {
     pool.query(
-      "INSERT INTO ingredients (name, shelf_life, storage, uom) VALUES ($1, $2, $3, $4) RETURNING *;",
-      [name, shelf_life, storage, uom],
+      "INSERT INTO ingredients (name, shelf_life, shelf_life_unit, storage, uom) VALUES ($1, $2, $3, $4, $5) RETURNING *;",
+      [name, shelf_life, shelf_life_unit, storage, uom],
       function (err, result) {
         if (err) reject(err);
         else {
@@ -52,15 +53,16 @@ function readIngredients(id?: number) {
 // Add patch functionality soon
 function updateIngredient(
   name: string,
-  shelf_life: string,
+  shelf_life: number,
+  shelf_life_unit: string,
   storage: string,
   uom: string,
   id: number
 ) {
   const queryUpdateIngredient = new Promise(function (resolve, reject) {
     pool.query(
-      "UPDATE ingredients SET name = $1, shelf_life = $2, storage = $3, uom = $4 WHERE id = $5 RETURNING *;",
-      [name, shelf_life, storage, uom, id],
+      "UPDATE ingredients SET name = $1, shelf_life = $2, shelf_life_unit = $3, storage = $4, uom = $5 WHERE id = $6 RETURNING *;",
+      [name, shelf_life, shelf_life_unit, storage, uom, id],
       function (err, result) {
         if (err) reject(err);
         else {

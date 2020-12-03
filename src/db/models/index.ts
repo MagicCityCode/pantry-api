@@ -12,8 +12,8 @@ export interface TUsers {
 
 export interface TTokens {
   id?: number;
-  userid?: number;
-  uniq?: string;
+  // userid?: number;
+  // uniq?: string;
   jwt?: string;
   _created?: Date;
 }
