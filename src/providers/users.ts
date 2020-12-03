@@ -1,4 +1,4 @@
-import pool from "../db/db";
+import pool from "../db";
 
 // Soon abstract type to interface
 function createUser(username: string, email: string, pw: string) {
