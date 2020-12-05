@@ -8,6 +8,8 @@ const pool = new pg.Pool({
   port: Number(process.env.PGPORT),
 });
 
+// pg.Result // Interesting this doesn't work; documentation seems it would...revisit
+
 export default pool;
 
 // Move to config soon

@@ -1,6 +1,7 @@
 const { IgnorePlugin } = require("webpack");
 const path = require("path");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const nodeExternals = require("webpack-node-externals");
 
 /**
  * @todo Move to .env variable when ready for production
@@ -47,6 +48,7 @@ const config = {
     filename: "bundle.js",
   },
   mode: DEV ? "development" : "production",
+  externals: [nodeExternals()],
 };
 
 module.exports = config;

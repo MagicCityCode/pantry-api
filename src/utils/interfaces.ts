@@ -1,12 +1,15 @@
 import { Request } from "express";
 
 export interface ReqUser extends Request {
-  user: {
-    id: number;
+  user?: {
+    id?: number;
+    email?: string;
+    pw?: string;
   };
 }
 
 export interface IPayload {
-  userid: number;
+  id?: number;
+  tokenid?: number;
   role?: string;
 }
