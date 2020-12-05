@@ -1,6 +1,24 @@
 # PantryBoss API
 
-_To be continued..._
+1. Clone this repo
+2. Run `npm install`
+3. Add your own .env file
+
+- `src/config/index.ts`
+  - `JWT_SECRET` - jwt secret key
+  - `JWT_EXPIRES` - jwt expiration length
+- `src/controllers/spoonacular.ts`
+  - `REACT_APP_SPOONACULAR_KEY` - API access key for [Spoonacular](https://spoonacular.com/food-api)
+- `src/db/index.ts` - postgres credentials
+  - `PGUSER`
+  - `PGHOST`
+  - `PGDATABASE`
+  - `PGPASS`
+  - `PGPORT`
+- `src/server.ts`
+  - `PORT` - node.js port
+
+4. Run `npm start`
 
 ## ROUGH-DRAFT OUTLINE
 
