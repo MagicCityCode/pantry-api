@@ -1,11 +1,17 @@
 import pool from "../db";
+import type { TUsers } from "../db/models";
 
 // Soon abstract type to interface
-function createUser(username: string, email: string, pw: string) {
+function createUser(
+  email: string,
+  pw: string,
+  first_name: string,
+  last_name: string
+) {
   const queryCreateUser = new Promise(function (resolve, reject) {
     pool.query(
-      "INSERT INTO users (username, email, pw) VALUES ($1, $2, $3) RETURNING *;",
-      [username, email, pw],
+      "INSERT INTO users (email, pw, first_name, last_name) VALUES ($1, $2, $3, $4) RETURNING *;",
+      [email, pw, first_name, last_name],
       function (err, result) {
         if (err) reject(err);
         else {
@@ -17,27 +23,27 @@ function createUser(username: string, email: string, pw: string) {
   return queryCreateUser;
 }
 
-function readUsers(id?: number) {
+function readUsers(id?: number): any {
   if (id) {
-    const queryReadOneUser = new Promise(function (resolve, reject) {
+    const queryReadOneUser = new Promise<TUsers>(function (resolve, reject) {
       pool.query(
         "SELECT * FROM users WHERE id = $1;",
         [id],
         function (err, result) {
           if (err) reject(err);
           else {
-            resolve(result);
+            resolve(result.rows[0]);
           }
         }
       );
     });
     return queryReadOneUser;
   } else {
-    const queryReadAllUsers = new Promise(function (resolve, reject) {
+    const queryReadAllUsers = new Promise<TUsers>(function (resolve, reject) {
       pool.query("SELECT * FROM users;", function (err, results) {
         if (err) reject(err);
         else {
-          resolve(results);
+          resolve(results.rows[0]);
         }
       });
     });
@@ -46,11 +52,17 @@ function readUsers(id?: number) {
 }
 
 // Soon abstract type to interface
-function updateUser(username: string, email: string, pw: string, id: number) {
+function updateUser(
+  email: string,
+  pw: string,
+  first_name: string,
+  last_name: string,
+  id: number
+) {
   const queryUpdateUser = new Promise(function (resolve, reject) {
     pool.query(
-      "UPDATE users SET username = $1, email = $2, pw = $3 WHERE id = $4 RETURNING *;",
-      [username, email, pw, id],
+      "UPDATE users SET email = $1, pw = $2, first_name = $3, last_name = $4 WHERE id = $5 RETURNING *;",
+      [email, pw, first_name, last_name, id],
       function (err, result) {
         if (err) reject(err);
         else {
@@ -78,9 +90,43 @@ function deleteUser(id: number) {
   return queryDeleteUser;
 }
 
+// For auth
+function findUserByEmail(email: string): any {
+  const queryFindUser = new Promise<TUsers>(function (resolve, reject) {
+    pool.query(
+      "SELECT * FROM users WHERE email = $1;",
+      [email],
+      function (err, result) {
+        if (err) reject(err);
+        else {
+          resolve(result.rows[0]);
+        }
+      }
+    );
+  });
+  return queryFindUser;
+}
+
+// Refactor later since pg's default return is a promise, don't need to specify new Promise above...
+// function test() {
+//   return pool
+//     .query("SELECT * FROM users WHERE email = test@test.com;")
+//     .then((res) => console.log(res));
+// }
+
+// type user = {
+//   id: number;
+//   email: string;
+//   pw: string;
+//   first_name: string;
+//   last_name: string;
+//   _created: string;
+// };
+
 export default {
   createUser,
   readUsers,
   updateUser,
   deleteUser,
+  findUserByEmail,
 };
