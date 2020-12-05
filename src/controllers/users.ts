@@ -4,9 +4,10 @@ const handleUsersPost = async (req: any, res: any, next: any) => {
   const newFormEntry = req.body;
   try {
     const newUser: any = await usersQueries.createUser(
-      newFormEntry.username,
       newFormEntry.email,
-      newFormEntry.pw
+      newFormEntry.pw,
+      newFormEntry.first_name,
+      newFormEntry.last_name,
     );
     return res.status(201).json(newUser);
   } catch (err) {
@@ -24,9 +25,10 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
       const [one] = oneUser.rows.map((mappedUserObj: any) => {
         return {
           id: mappedUserObj.id,
-          username: mappedUserObj.username,
           email: mappedUserObj.email,
           pw: mappedUserObj.pw,
+          first_name: mappedUserObj.first_name,
+          last_name: mappedUserObj.last_name,
           _created: mappedUserObj._created,
         };
       });
@@ -36,9 +38,11 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
       const all = allUsers.rows.map((mappedUserObj: any) => {
         return {
           id: mappedUserObj.id,
-          username: mappedUserObj.username,
           email: mappedUserObj.email,
           pw: mappedUserObj.pw,
+          username: mappedUserObj.username,
+          first_name: mappedUserObj.first_name,
+          last_name: mappedUserObj.last_name,
           _created: mappedUserObj._created,
         };
       });
@@ -56,9 +60,10 @@ const handleUsersPut = async (req: any, res: any, next: any) => {
   const updatedFormEntry = req.body;
   try {
     const updatedUser: any = await usersQueries.updateUser(
-      updatedFormEntry.username,
       updatedFormEntry.email,
       updatedFormEntry.pw,
+      updatedFormEntry.first_name,
+      updatedFormEntry.last_name,
       id
     );
     return res.status(200).json(updatedUser);
