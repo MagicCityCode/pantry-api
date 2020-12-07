@@ -1,22 +1,22 @@
-import dotenv from "dotenv";
-import express from "express";
-import helmet from "helmet";
-import morgan from "morgan";
-import cors from "cors";
-import compression from "compression";
-import routes from "./routes";
+import dotenv from 'dotenv';
+import express from 'express';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import cors from 'cors';
+import compression from 'compression';
+import routes from './routes';
 
 // debugger;
 const envFound = dotenv.config();
 
 if (!envFound) {
-  throw new Error("env file not found");
+  throw new Error('env file not found');
 }
 
 const app = express();
 
 app.use(helmet());
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 app.use(cors());
 app.use(compression());
 app.use(express.json());

@@ -1,10 +1,10 @@
-import * as passport from "passport";
-import * as jwtStrategy from "passport-jwt";
-import * as PassportLocal from "passport-local";
-import config from "../config";
-import { comparePassword } from "../utils/passwords";
-import type { IPayload } from "../utils/interfaces";
-import usersQueries from "../providers/users";
+import * as passport from 'passport';
+import * as jwtStrategy from 'passport-jwt';
+import * as PassportLocal from 'passport-local';
+import config from '../config';
+import { comparePassword } from '../utils/passwords';
+import type { IPayload } from '../utils/interfaces';
+import usersQueries from '../providers/users';
 
 // Create req.user
 passport.serializeUser((user, done) => done(null, user));
@@ -13,7 +13,7 @@ passport.deserializeUser((user, done) => done(null, user));
 // Local Strategy: user fills out a login form on app, and we use this to check their credentials in our own db. It defaults to username and we override it to use email instead.
 passport.use(
   new PassportLocal.Strategy(
-    { usernameField: "email" },
+    { usernameField: 'email' },
     async (email: string, password: string, done) => {
       try {
         // PassportLocal gives us the email and password someone is attempting to use to log in
@@ -32,14 +32,14 @@ passport.use(
         console.log(err);
         done(err);
       }
-    }
-  )
+    },
+  ),
 );
 
 passport.use(
   new jwtStrategy.Strategy(
     {
-      // This will find the token on our requests, specifically in the request headers under the key "Authorization" with a value of "Bearer OUR_TOKEN_HERE" if it sees it, it extracts it
+      // This will find the token on our requests, specifically in the request headers under the key 'Authorization' with a value of 'Bearer OUR_TOKEN_HERE' if it sees it, it extracts it
       jwtFromRequest: jwtStrategy.ExtractJwt.fromAuthHeaderAsBearerToken(),
       // Check the token's secret signature against ours, if not a match, or if expired, autosends response of 401 Unauthorized
       secretOrKey: config.jwt.secret,
@@ -61,6 +61,6 @@ passport.use(
         console.log(err);
         done(err);
       }
-    }
-  )
+    },
+  ),
 );

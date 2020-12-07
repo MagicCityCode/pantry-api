@@ -1,4 +1,4 @@
-import usersQueries from "../providers/users";
+import usersQueries from '../providers/users';
 
 const handleUsersPost = async (req: any, res: any, next: any) => {
   const newFormEntry = req.body;
@@ -21,16 +21,14 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
     const id = Number(req.params.id);
     if (id) {
       const oneUser: any = await usersQueries.readUsers(id);
-      const [one] = oneUser.rows.map((mappedUserObj: any) => {
-        return {
-          id: mappedUserObj.id,
-          email: mappedUserObj.email,
-          pw: mappedUserObj.pw,
-          first_name: mappedUserObj.first_name,
-          last_name: mappedUserObj.last_name,
-          _created: mappedUserObj._created,
-        };
-      });
+      const [one] = oneUser.rows.map((mappedUserObj: any) => ({
+        id: mappedUserObj.id,
+        email: mappedUserObj.email,
+        pw: mappedUserObj.pw,
+        first_name: mappedUserObj.first_name,
+        last_name: mappedUserObj.last_name,
+        _created: mappedUserObj.created,
+      }));
       return res.status(200).json(one);
     } else {
       const allUsers: any = await usersQueries.readUsers();
@@ -46,6 +44,16 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
       });
       return res.status(200).json(all);
     }
+    const allUsers: any = await usersQueries.readUsers();
+    const all = allUsers.rows.map((mappedUserObj: any) => ({
+      id: mappedUserObj.id,
+      email: mappedUserObj.email,
+      pw: mappedUserObj.pw,
+      first_name: mappedUserObj.first_name,
+      last_name: mappedUserObj.last_name,
+      _created: mappedUserObj.created,
+    }));
+    return res.status(200).json(all);
   } catch (err) {
     return next(err);
   }
@@ -60,7 +68,7 @@ const handleUsersPut = async (req: any, res: any, next: any) => {
       updatedFormEntry.pw,
       updatedFormEntry.first_name,
       updatedFormEntry.last_name,
-      id
+      id,
     );
     return res.status(200).json(updatedUser);
   } catch (err) {
