@@ -37,7 +37,6 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
       id: mappedUserObj.id,
       email: mappedUserObj.email,
       pw: mappedUserObj.pw,
-      username: mappedUserObj.username,
       first_name: mappedUserObj.first_name,
       last_name: mappedUserObj.last_name,
       _created: mappedUserObj.created,
