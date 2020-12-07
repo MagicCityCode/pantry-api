@@ -5,14 +5,13 @@ const handleUsersPost = async (req: any, res: any, next: any) => {
   try {
     const newUser: any = await usersQueries.createUser(
       newFormEntry.email,
-      newFormEntry.pw,
+      newFormEntry.pw, // hash & salt this instead
       newFormEntry.first_name,
       newFormEntry.last_name,
     );
+    console.log(newUser.rows[0].id); // use to make token then send that as response
     return res.status(201).json(newUser);
   } catch (err) {
-    console.log("handleUsersPost [add filepath soon]", err);
-    res.status(500).json({ msg: "Code not working", err });
     return next(err);
   }
 };
@@ -40,7 +39,6 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
           id: mappedUserObj.id,
           email: mappedUserObj.email,
           pw: mappedUserObj.pw,
-          username: mappedUserObj.username,
           first_name: mappedUserObj.first_name,
           last_name: mappedUserObj.last_name,
           _created: mappedUserObj._created,
@@ -49,8 +47,6 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
       return res.status(200).json(all);
     }
   } catch (err) {
-    console.log("handleUsersGet [add filepath soon]", err);
-    res.status(500).json({ msg: "Code not working", err });
     return next(err);
   }
 };
@@ -68,8 +64,6 @@ const handleUsersPut = async (req: any, res: any, next: any) => {
     );
     return res.status(200).json(updatedUser);
   } catch (err) {
-    console.log("handleUsersPut [add filepath soon]", err);
-    res.status(500).json({ msg: "Code not working", err });
     return next(err);
   }
 };
@@ -80,8 +74,6 @@ const handleUsersDelete = async (req: any, res: any, next: any) => {
     const deletedUser: any = await usersQueries.deleteUser(id);
     return res.status(202).json(deletedUser);
   } catch (err) {
-    console.log("handleUsersDelete [add filepath soon]", err);
-    res.status(500).json({ msg: "Code not working", err });
     return next(err);
   }
 };

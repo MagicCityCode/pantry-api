@@ -21,6 +21,20 @@ app.use(cors());
 app.use(compression());
 app.use(express.json());
 app.use(routes);
+app.use((err: ExpressError, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.status(err.status || 500);
+  res.json({
+    errors: {
+      msg: err.message
+    }
+  })
+});
 
 const port = process.env.PORT;
 app.listen(port, () => console.log(`Server listening on port: ${port}`));
+
+type ExpressError = {
+  status: number,
+  message?: string,
+  name?: string,
+}

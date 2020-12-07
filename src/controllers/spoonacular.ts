@@ -26,8 +26,6 @@ const handleJokeGet = async (req: any, res: any, next: any) => {
     console.log(jokeResponseBody);
     return res.status(200).json(jokeResponseBody);
   } catch (err) {
-    console.log("handleJokeGet [add filepath soon]", err);
-    res.status(500).json({ msg: "Code not working", err });
     return next(err);
   }
 };
