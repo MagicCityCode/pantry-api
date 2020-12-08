@@ -5,13 +5,15 @@ import morgan from "morgan";
 import cors from "cors";
 import compression from "compression";
 import routes from "./routes";
+import passport from "passport";
 
 // debugger;
 const envFound = dotenv.config();
-
 if (!envFound) {
   throw new Error("env file not found");
 }
+
+import "./middlewares/passport-strategies";
 
 const app = express();
 
@@ -20,6 +22,7 @@ app.use(morgan("dev"));
 app.use(cors());
 app.use(compression());
 app.use(express.json());
+app.use(passport.initialize());
 app.use(routes);
 app.use((err: ExpressError, req: express.Request, res: express.Response, next: express.NextFunction) => {
   res.status(err.status || 500);

@@ -1,16 +1,19 @@
 import usersQueries from "../providers/users";
+import { generateHashSalt } from "../utils/passwords";
+import { createToken } from "../utils/tokens";
 
 const handleUsersPost = async (req: any, res: any, next: any) => {
   const newFormEntry = req.body;
+  const newFormEntryHashedSaltedPw = generateHashSalt(req.body.pw);
   try {
     const newUser: any = await usersQueries.createUser(
       newFormEntry.email,
-      newFormEntry.pw, // hash & salt this instead
+      newFormEntryHashedSaltedPw,
       newFormEntry.first_name,
       newFormEntry.last_name,
     );
-    console.log(newUser.rows[0].id); // use to make token then send that as response
-    return res.status(201).json(newUser);
+    const token = createToken({ id: newUser.rows[0].id });
+    return res.status(201).json(token);
   } catch (err) {
     return next(err);
   }
@@ -21,7 +24,7 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
     const id = Number(req.params.id);
     if (id) {
       const oneUser: any = await usersQueries.readUsers(id);
-      const [one] = oneUser.rows.map((mappedUserObj: any) => {
+      const [one] = oneUser.rows[0].map((mappedUserObj: any) => {
         return {
           id: mappedUserObj.id,
           email: mappedUserObj.email,
@@ -34,7 +37,7 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
       return res.status(200).json(one);
     } else {
       const allUsers: any = await usersQueries.readUsers();
-      const all = allUsers.rows.map((mappedUserObj: any) => {
+      const all = allUsers.rows[0].map((mappedUserObj: any) => {
         return {
           id: mappedUserObj.id,
           email: mappedUserObj.email,
