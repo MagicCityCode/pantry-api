@@ -13,7 +13,7 @@ passport.deserializeUser((user, done) => done(null, user));
 // Local Strategy: user fills out a login form on app which is used to check their credentials in pantry db; defaults to username, overridden to use email
 passport.use(
   new PassportLocal.Strategy(
-    { usernameField: "email" },
+    { usernameField: "email", passwordField: "pw" },
     async (email: string, password: string, done) => {
       try {
         // PassportLocal provides email and pw from login attempts
