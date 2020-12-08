@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 const handleJokeGet = async (req: any, res: any, next: any) => {
   try {
-    const API_KEY = String(process.env.REACT_APP_SPOONACULAR_KEY);
+    const API_KEY = String(process.env.SPOONACULAR_KEY);
     // const separator = '%2C'; // Use this to delineate listings of mult. items from an array, eg list of ingredients
     // const separator = ',+'; // Use this to delineate listings of mult. items from an array, eg list of ingredients
     // let ingredientsList = ['apple', 'peach', 'grapes']; // Make dynamic once finalize data model
