@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 import { IgnorePlugin } from 'webpack';
 import path from 'path';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
