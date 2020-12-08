@@ -1,6 +1,6 @@
 import usersQueries from "../providers/users";
 import { generateHashSalt } from "../utils/passwords";
-import { createToken } from "../utils/tokens";
+import createToken from "../utils/tokens";
 
 const handleUsersPost = async (req: any, res: any, next: any) => {
   const newFormEntry = req.body;

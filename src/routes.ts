@@ -4,7 +4,7 @@ import ingredients from "./controllers/ingredients";
 import users from "./controllers/users";
 import joke from "./controllers/spoonacular"; // Build out rest of Spoonacular API connectivity soon; add auth where applicable; leaving off for now...
 import { ReqUser } from "./utils/interfaces";
-import { createToken } from "./utils/tokens";
+import createToken from "./utils/tokens";
 
 const router = express.Router();
 
