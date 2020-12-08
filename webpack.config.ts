@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import { IgnorePlugin } from 'webpack';
 import path from 'path';
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
@@ -52,4 +51,4 @@ const config = {
   externals: [nodeExternals()],
 };
 
-module.exports = config;
+export default config;
