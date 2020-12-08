@@ -1,7 +1,8 @@
-const { IgnorePlugin } = require("webpack");
-const path = require("path");
-const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
-const nodeExternals = require("webpack-node-externals");
+/* eslint-disable import/no-extraneous-dependencies */
+import { IgnorePlugin } from 'webpack';
+import path from 'path';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
+import nodeExternals from 'webpack-node-externals';
 
 /**
  * @todo Move to .env variable when ready for production
@@ -9,19 +10,19 @@ const nodeExternals = require("webpack-node-externals");
 const DEV = true;
 
 const config = {
-  entry: "./src/server.ts",
-  target: "node",
+  entry: './src/server.ts',
+  target: 'node',
   module: {
     rules: [
       {
         test: /\.ts?$/,
         exclude: /node_modules/,
-        use: "babel-loader",
+        use: 'babel-loader',
       },
     ],
   },
   resolve: {
-    extensions: [".ts", ".js"],
+    extensions: ['.ts', '.js'],
     fallback: {
       buffer: false,
       crypto: false,
@@ -36,7 +37,7 @@ const config = {
   },
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: "static",
+      analyzerMode: 'static',
       openAnalyzer: false,
     }),
     new IgnorePlugin({
@@ -44,10 +45,10 @@ const config = {
     }),
   ],
   output: {
-    path: path.resolve(__dirname, "dist"),
-    filename: "bundle.js",
+    path: path.resolve(__dirname, 'dist'),
+    filename: 'bundle.js',
   },
-  mode: DEV ? "development" : "production",
+  mode: DEV ? 'development' : 'production',
   externals: [nodeExternals()],
 };
 

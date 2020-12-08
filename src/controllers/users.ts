@@ -1,6 +1,6 @@
-import usersQueries from "../providers/users";
-import { generateHashSalt } from "../utils/passwords";
-import createToken from "../utils/tokens";
+import usersQueries from '../providers/users';
+import { generateHashSalt } from '../utils/passwords';
+import createToken from '../utils/tokens';
 
 const handleUsersPost = async (req: any, res: any, next: any) => {
   const newFormEntry = req.body;
@@ -25,10 +25,9 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
     if (id) {
       const oneUser: any = await usersQueries.readUsers(id);
       return res.status(200).json(oneUser);
-    } else {
-      const allUsers: any = await usersQueries.readUsers();
-      return res.status(200).json(allUsers);
     }
+    const allUsers: any = await usersQueries.readUsers();
+    return res.status(200).json(allUsers);
   } catch (err) {
     return next(err);
   }
@@ -43,7 +42,7 @@ const handleUsersPut = async (req: any, res: any, next: any) => {
       updatedFormEntry.pw,
       updatedFormEntry.first_name,
       updatedFormEntry.last_name,
-      id
+      id,
     );
     return res.status(200).json(updatedUser);
   } catch (err) {
