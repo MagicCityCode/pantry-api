@@ -24,30 +24,10 @@ const handleUsersGet = async (req: any, res: any, next: any) => {
     const id = Number(req.params.id);
     if (id) {
       const oneUser: any = await usersQueries.readUsers(id);
-      const [one] = oneUser.rows[0].map((mappedUserObj: any) => {
-        return {
-          id: mappedUserObj.id,
-          email: mappedUserObj.email,
-          pw: mappedUserObj.pw,
-          first_name: mappedUserObj.first_name,
-          last_name: mappedUserObj.last_name,
-          _created: mappedUserObj._created,
-        };
-      });
-      return res.status(200).json(one);
+      return res.status(200).json(oneUser);
     } else {
       const allUsers: any = await usersQueries.readUsers();
-      const all = allUsers.rows[0].map((mappedUserObj: any) => {
-        return {
-          id: mappedUserObj.id,
-          email: mappedUserObj.email,
-          pw: mappedUserObj.pw,
-          first_name: mappedUserObj.first_name,
-          last_name: mappedUserObj.last_name,
-          _created: mappedUserObj._created,
-        };
-      });
-      return res.status(200).json(all);
+      return res.status(200).json(allUsers);
     }
   } catch (err) {
     return next(err);

@@ -10,22 +10,22 @@ import usersQueries from "../providers/users";
 passport.serializeUser((user, done) => done(null, user));
 passport.deserializeUser((user, done) => done(null, user));
 
-// Local Strategy: user fills out a login form on app, and we use this to check their credentials in our own db. It defaults to username and we override it to use email instead.
+// Local Strategy: user fills out a login form on app which is used to check their credentials in pantry db; defaults to username, overridden to use email
 passport.use(
   new PassportLocal.Strategy(
     { usernameField: "email" },
     async (email: string, password: string, done) => {
       try {
-        // PassportLocal gives us the email and password someone is attempting to use to log in
-        // First thing make sure their email even exists in our db
-        const [user] = await usersQueries.findUserByEmail(email);
-        // Then we make sure they are real and that the password they're trying to log in with matches what we store in our db
+        // PassportLocal provides email and pw from login attempts
+        // First verifies the email exists in pantry db
+        const user = await usersQueries.findUserByEmail(email);
+        // Ensures the pw provided matches pantry db for that user
         if (user && comparePassword(password, user.pw)) {
           delete user.pw;
-          // This creates req.user with our user's info
+          // Create req.user with user's info
           done(null, user);
         } else {
-          // This represents a bad login attempt, and Passport will autosend response of 401 Unauthorized
+          // Bad login attempt; Passport will autosend response of 401 Unauthorized
           done(null, false);
         }
       } catch (err) {
@@ -39,19 +39,19 @@ passport.use(
 passport.use(
   new jwtStrategy.Strategy(
     {
-      // This will find the token on our requests, specifically in the request headers under the key "Authorization" with a value of "Bearer OUR_TOKEN_HERE" if it sees it, it extracts it
+      // Find the token on reqs, specifically in headers under the key "Authorization" with value of "Bearer ACTUAL_TOKEN_HERE" if found, extracts
       jwtFromRequest: jwtStrategy.ExtractJwt.fromAuthHeaderAsBearerToken(),
-      // Check the token's secret signature against ours, if not a match, or if expired, autosends response of 401 Unauthorized
+      // Check token's secret signature against ours, if not a match or if expired, autosend response of 401 Unauthorized
       secretOrKey: config.jwt.secret,
     },
     async (payload: IPayload, done) => {
       try {
-        // The payload has a userid in it; validation that number exists in our db
-        const [user] = await usersQueries.readUsers(payload.id);
-        // If user is found, same done workflow from before
+        // Payload has a userid in it; validation that number exists in our db
+        const user = await usersQueries.readUsers(payload.id);
+        // If user found, same done workflow from before
         if (user) {
           delete user.pw;
-          // Creates req.user with user's info
+          // Create req.user with user's info
           done(null, user);
         } else {
           // Something didn't match up in db; 401

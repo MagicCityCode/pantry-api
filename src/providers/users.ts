@@ -39,11 +39,11 @@ function readUsers(id?: number): any {
     });
     return queryReadOneUser;
   } else {
-    const queryReadAllUsers = new Promise<TUsers>(function (resolve, reject) {
+    const queryReadAllUsers = new Promise<TUsers[]>(function (resolve, reject) {
       pool.query("SELECT * FROM users;", function (err, results) {
         if (err) reject(err);
         else {
-          resolve(results.rows[0]);
+          resolve(results.rows);
         }
       });
     });
