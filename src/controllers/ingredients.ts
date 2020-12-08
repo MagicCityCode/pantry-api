@@ -12,8 +12,6 @@ const handleIngredientsPost = async (req: any, res: any, next: any) => {
     );
     return res.status(201).json(newIngredient);
   } catch (err) {
-    console.log('handleIngredientsPost [add filepath soon]', err);
-    res.status(500).json({ msg: 'Code not working', err });
     return next(err);
   }
 };
@@ -46,8 +44,6 @@ const handleIngredientsGet = async (req: any, res: any, next: any) => {
     }));
     return res.status(200).json(all);
   } catch (err) {
-    console.log('handleIngredientsGet [add filepath soon]', err);
-    res.status(500).json({ msg: 'Code not working', err });
     return next(err);
   }
 };
@@ -66,8 +62,6 @@ const handleIngredientsPut = async (req: any, res: any, next: any) => {
     );
     return res.status(200).json(updatedIngredient);
   } catch (err) {
-    console.log('handleIngredientsPut [add filepath soon]', err);
-    res.status(500).json({ msg: 'Code not working', err });
     return next(err);
   }
 };
@@ -78,8 +72,6 @@ const handleIngredientsDelete = async (req: any, res: any, next: any) => {
     const deletedIngredient: any = await ingredientsQueries.deleteIngredient(id);
     return res.status(202).json(deletedIngredient);
   } catch (err) {
-    console.log('handleIngredientsDelete [add filepath soon]', err);
-    res.status(500).json({ msg: 'Code not working', err });
     return next(err);
   }
 };
