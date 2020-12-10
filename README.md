@@ -22,26 +22,25 @@
 
 ## ROUGH-DRAFT OUTLINE
 
-- Test API routes & auth Postman
+- Test API routes & auth in Postman
 - Things to incorporate in backend:
-  - DB
-    - PostgreSQL
+  - PostgreSQL for db
   - Error-handling
-    - Morgan for server activity-logging
+  - Morgan for server activity-logging
 - Auth
   - JWT, Passport
   - SSO soon
 - Security
   - app.disable('x-powered-by');
-  - .env
+  - env
   - Helmet
-    (npm i express-validator)
+  - express-validator
 - Compression
-  - Gzip (npm i compression)
-  - PM2 vs Nodemon for restarting / runtime issues / monitoring (npm i -g pm2 then pm2 start server.js -i max)
-
+  - Gzip
+  
 ### Soon:
 
+- _PM2/Nodemon for restarting / runtime issues / monitoring_
 - _Pino/Winston for logging_
 - _BlueBird promise library for error-handling_
 - _Swagger_
