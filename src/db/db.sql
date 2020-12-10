@@ -69,10 +69,11 @@ CREATE TABLE recipes (
 
 DROP TABLE IF EXISTS meals;
 
+-- For MVP queries/simplicity's sake, currently assuming each meal would be 1 serving size
 CREATE TABLE meals (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     reserved_for_date DATE,
-    reserved_for_time TIME,
+    reserved_for_time TIME, -- On frontend, if user chooses between breakfast/lunch/dinner, default time to 8a, 12p, 6p for sorting
     _committed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
