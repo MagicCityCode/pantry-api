@@ -22,7 +22,7 @@
 
 ## ROUGH-DRAFT OUTLINE
 
-- Postman for API- & auth- route testing
+- Postman for API- & auth-route testing
 - Things to incorporate in backend:
   - PostgreSQL for db
   - Error-handling
