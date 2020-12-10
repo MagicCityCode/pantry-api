@@ -22,7 +22,7 @@
 
 ## ROUGH-DRAFT OUTLINE
 
-- Test API routes & auth in Postman
+- Postman for API- & auth- route testing
 - Things to incorporate in backend:
   - PostgreSQL for db
   - Error-handling
@@ -37,7 +37,7 @@
   - express-validator
 - Compression
   - Gzip
-  
+
 ### Soon:
 
 - _PM2/Nodemon for restarting / runtime issues / monitoring_
