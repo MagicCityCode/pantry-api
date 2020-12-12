@@ -31,7 +31,9 @@ const handleJokeGet = async (req: any, res: any, next: any) => {
 const handleFindRecipesByIngredientsGet = async (req: any, res: any, next: any) => {
   try {
     const maxResults = 5; // Specify how many results Spoonacular will return
-    const ingredientsListFromUser = 'apples'; // Soon change this to map user's inputs from frontend, delineated by ',+'
+    const newFormEntry = req.body;
+    const ingredientsListFromUser = newFormEntry.listOfIngredients.replace(' ', '+'); // Each ingredient should be separated by ',+'
+    console.log(ingredientsListFromUser);
     const requestString = `https://api.spoonacular.com/recipes/findByIngredients?apiKey=${apiKey}&ingredients=${ingredientsListFromUser}&number=${maxResults}`;
     const response = await fetch(requestString, {
       method: 'GET',

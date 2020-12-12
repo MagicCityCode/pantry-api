@@ -2,7 +2,7 @@ import express from 'express';
 import passport from 'passport';
 import ingredients from './controllers/ingredients';
 import users from './controllers/users';
-import joke from './controllers/spoonacular'; // Build out rest of Spoonacular API connectivity soon; add auth where applicable; leaving off for now...
+import spoonacular from './controllers/spoonacular';
 import { ReqUser } from './utils/interfaces';
 import createToken from './utils/tokens';
 
@@ -22,7 +22,8 @@ router.delete(
   ingredients.handleIngredientsDelete,
 );
 // SPOONACULAR
-router.get('/joke', joke.handleJokeGet); // Build out rest of Spoonacular API connectivity soon; add auth where applicable; leaving off for now...
+router.get('/joke', spoonacular.handleJokeGet);
+router.post('/recipes-by-ingredients', spoonacular.handleFindRecipesByIngredientsGet);
 // USERS/AUTH
 router.post('/register', users.handleUsersPost);
 router.get('/users/:id?', users.handleUsersGet);
@@ -36,7 +37,6 @@ router.post('/login', passport.authenticate('local'), async (req: ReqUser, res) 
       token,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json('Login route not working');
   }
 });
