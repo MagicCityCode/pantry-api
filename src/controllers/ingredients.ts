@@ -21,28 +21,10 @@ const handleIngredientsGet = async (req: any, res: any, next: any) => {
     const id = Number(req.params.id);
     if (id) {
       const oneIngredient: any = await ingredientsQueries.readIngredients(id);
-      const [one] = oneIngredient.rows.map((mappedIngredientObj: any) => ({
-        id: mappedIngredientObj.id,
-        name: mappedIngredientObj.name,
-        shelf_life: mappedIngredientObj.shelf_life,
-        shelf_life_unit: mappedIngredientObj.shelf_life_unit,
-        storage: mappedIngredientObj.storage,
-        uom: mappedIngredientObj.uom,
-        _created: mappedIngredientObj.created,
-      }));
-      return res.status(200).json(one);
+      return res.status(200).json(oneIngredient);
     }
     const allIngredients: any = await ingredientsQueries.readIngredients();
-    const all = allIngredients.rows.map((mappedIngredientObj: any) => ({
-      id: mappedIngredientObj.id,
-      name: mappedIngredientObj.name,
-      shelf_life: mappedIngredientObj.shelf_life,
-      shelf_life_unit: mappedIngredientObj.shelf_life_unit,
-      storage: mappedIngredientObj.storage,
-      uom: mappedIngredientObj.uom,
-      _created: mappedIngredientObj.created,
-    }));
-    return res.status(200).json(all);
+    return res.status(200).json(allIngredients);
   } catch (err) {
     return next(err);
   }
