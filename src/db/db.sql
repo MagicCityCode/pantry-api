@@ -21,8 +21,9 @@ ALTER COLUMN
 ALTER TABLE
     ingredients
 ADD
-    COLUMN shelf_life_unit varchar(30); -- Later can add default value of "days" but for now, will assume all unspecified inputs are in days
+    COLUMN shelf_life_unit varchar(30);
 
+-- Later can add default value of "days" but for now, will assume all unspecified inputs are in days
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -74,6 +75,7 @@ CREATE TABLE meals (
     user_id INT NOT NULL,
     recipe_id INT NOT NULL,
     reserved_for_date DATE,
-    reserved_for_time TIME, -- On frontend, if user chooses between breakfast/lunch/dinner, default time to 8a, 12p, 6p for sorting
+    reserved_for_time TIME,
+    -- On frontend, if user chooses between breakfast/lunch/dinner, default time to 8a, 12p, 6p for sorting
     _committed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
