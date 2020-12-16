@@ -4,8 +4,8 @@ CREATE TABLE ingredients (
     id SERIAL NOT NULL PRIMARY KEY,
     name VARCHAR UNIQUE NOT NULL,
     shelf_life VARCHAR,
-    -- On 12/02/20 Changed shelf_life data type to DECIMAL
-    -- On 12/02/20 Added col shelf_life_unit VARCHAR(30)
+    -- On 12/02/20 changed shelf_life data type to DECIMAL
+    -- On 12/02/20 added col shelf_life_unit VARCHAR(30)
     storage VARCHAR DEFAULT 'refrigerator',
     uom VARCHAR,
     _created TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -23,7 +23,7 @@ ALTER TABLE
 ADD
     COLUMN shelf_life_unit varchar(30);
 
--- Later can add default value of "days" but for now, will assume all unspecified inputs are in days
+-- Later add default value of "days"; currently assuming all inputs are in days
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -76,7 +76,7 @@ CREATE TABLE meals (
     recipe_id INT NOT NULL,
     reserved_for_date DATE,
     reserved_for_time TIME,
-    -- On 12/15/20 Added col reserved_for_datetime TIMESTAMP
+    -- On 12/15/20 added col reserved_for_datetime TIMESTAMP
     -- On frontend, if user chooses between breakfast/lunch/dinner, default time to 8a, 12p, 6p for sorting
     _committed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
