@@ -76,6 +76,13 @@ CREATE TABLE meals (
     recipe_id INT NOT NULL,
     reserved_for_date DATE,
     reserved_for_time TIME,
+    -- On 12/15/20 Added col reserved_for_datetime TIMESTAMP
     -- On frontend, if user chooses between breakfast/lunch/dinner, default time to 8a, 12p, 6p for sorting
     _committed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- 12/15/20
+ALTER TABLE
+    meals
+ADD
+    COLUMN reserved_for_datetime TIMESTAMP;
