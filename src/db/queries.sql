@@ -1,5 +1,6 @@
 -- User's available (uncommitted & unexpired) inventory
 -- Note: Items committed to meals will be offset via a regular cleanup inverse transaction equivalent to meals' recipes' required ingredients * quantity, eliminating need to account for depletion here)
+CREATE TEMP TABLE temp_user_unexpired_available_inventory AS
 SELECT
     ig.name AS Item,
     SUM(
@@ -50,6 +51,16 @@ WHERE
 GROUP BY
     Item,
     Unit_of_Measure;
+
+SELECT
+    *
+FROM
+    temp_user_unexpired_available_inventory
+WHERE
+    Available_Unexpired_Quantity > 0
+    AND Available_Unexpired_Quantity IS NOT NULL;
+
+DROP TABLE temp_user_unexpired_available_inventory;
 
 -- User's [planned but uneaten] upcoming meals
 SELECT
