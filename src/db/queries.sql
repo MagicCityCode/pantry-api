@@ -70,7 +70,15 @@ SELECT
 FROM
     recipes r
 WHERE
-    DATEPART(HOUR, CURRENT_TIMESTAMP) < m.reserved_for_datetime
+    EXTRACT(
+        EPOCH
+        FROM
+            CURRENT_TIMESTAMP
+    ) < EXTRACT(
+        EPOCH
+        FROM
+            m.reserved_for_datetime
+    )
     AND u.id = '$1' -- <<< Authenticated user which will be an escape key
     RIGHT JOIN meals m ON r.id = m.recipe_id
     LEFT JOIN users u ON m.user_id = u.id
