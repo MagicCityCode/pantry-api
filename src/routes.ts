@@ -37,6 +37,7 @@ router.post('/login', passport.authenticate('local'), async (req: ReqUser, res) 
       token,
     });
   } catch (err) {
+    console.log(err, err.message);
     res.status(500).json('Login route not working');
   }
 });
