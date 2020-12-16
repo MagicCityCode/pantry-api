@@ -1,51 +1,67 @@
 -- User's available (uncommitted & unexpired) inventory
+-- Note: Items committed to meals will be offset via a regular cleanup inverse transaction equivalent to meals' recipes' required ingredients * quantity, eliminating need to account for depletion here)
 SELECT
-    i.name 'Ingredient',
+    ig.name AS Item,
     SUM(
         CASE
-            o.qty
-            WHEN (CURRENT_TIMESTAMP - n._created) <=
-            AND i.shelf_life
-        ) 'Quantity',
-        i.uom 'Unit_of_Measure'
+            WHEN (
+                (
+                    EXTRACT(
+                        EPOCH
+                        FROM
+                            ip._created
+                    ) + (ig.shelf_life * 24 * 60 * 60) -- <<< Convert shelf life days to seconds (wrap this in a conditional if start using anything other than default days for shelf life)
+                ) > EXTRACT(
+                    EPOCH
+                    FROM
+                        CURRENT_TIMESTAMP
+                )
+            ) THEN od.qty
+            ELSE 0
+        END
+    ) AS Available_Unexpired_Quantity,
+    ig.uom AS Unit_of_Measure
+FROM
+    ingredients ig
+    RIGHT JOIN order_details od ON ig.id = od.ingredient_id
+    LEFT JOIN inputs ip ON od.input_id = ip.id
+    LEFT JOIN users u ON ip.user_id = u.id
+WHERE
+    u.id = '$1' -- <<< Authenticated user which will be an escape key
+    AND NOT EXISTS(
+        SELECT
+            *
         FROM
-            ingredients i
+            inputs ip
         WHERE
-            NOT EXISTS(
-                SELECT
-                    *
+            ip.entry_method = 'ordered'
+            AND (
+                EXTRACT(
+                    EPOCH
+                    FROM
+                        ip._created
+                ) + 3
+            ) < EXTRACT(
+                EPOCH
                 FROM
-                    inputs n
-                WHERE
-                    n.entry_method = 'ordered'
-                    AND (n._created + 3) < CURRENT_TIMESTAMP
+                    CURRENT_TIMESTAMP
             )
-            AND u.id = ?
-            RIGHT JOIN order_details o ON i.id = o.ingredient_id
-            FULL OUTER JOIN n ON o.input_id = n.user_id
-            FULL OUTER JOIN users u ON n.user_id = u.id
-        GROUP BY
-            'Ingredient',
-            'Unit_of_Measure';
+    )
+GROUP BY
+    Item,
+    Unit_of_Measure;
 
--- User's planned but uneaten upcoming meals
+-- User's [planned but uneaten] upcoming meals
 SELECT
-    r.name 'Meal',
-    COUNT(r.id) 'Quantity',
-    m.reserved_for_date 'Scheduled_Date',
-    m.reserved_for_time 'Scheduled_Time'
+    r.name Meal,
+    COUNT(r.id) Quantity,
+    TO_CHAR(m.reserved_for_datetime, 'dd-Mon') AS Scheduled_for_Date,
 FROM
     recipes r
 WHERE
-    DATEPART(HOUR, CURRENT_TIMESTAMP) > CONCAT(
-        DATEPART(HOUR, m.reserved_for_date),
-        DATEPART(HOUR, m.reserved_for_time)
-    )
-    AND u.id = ?
-    FULL OUTER JOIN meals m ON r.id = m.recipe_id
-    FULL OUTER JOIN users u ON m.user_id = u.id
+    DATEPART(HOUR, CURRENT_TIMESTAMP) < m.reserved_for_datetime
+    AND u.id = '$1' -- <<< Authenticated user which will be an escape key
+    RIGHT JOIN meals m ON r.id = m.recipe_id
+    LEFT JOIN users u ON m.user_id = u.id
 ORDER BY
-    CONCAT(
-        DATEPART(HOUR, m.reserved_for_date),
-        DATEPART(HOUR, m.reserved_for_time)
-    ) ASC;
+    m.reserved_for_datetime ASC;
