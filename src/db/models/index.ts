@@ -15,7 +15,7 @@ export interface TUsers {
   pw: string;
   firstName: string;
   lastName: string;
-  _created: string;
+  createdAt: string;
 }
 
 export interface TIngredients {
@@ -24,6 +24,13 @@ export interface TIngredients {
   shelfLife: number;
   storage: string;
   uom: string;
-  _created: Date;
+  createdAt: string; // Later change this to 'Date'
   shelfLifeUnit: string;
+}
+
+export interface TUserInventory {
+  item: string;
+  quantity: number;
+  unitOfMeasure: string;
+  daysUntilExpiration: number;
 }
