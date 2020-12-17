@@ -42,9 +42,16 @@ CREATE TABLE inputs (
     id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
     user_id INT NOT NULL,
     entry_method VARCHAR(30),
+    -- On 12/16/20 added col order_status VARCHAR(40)
     _created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT u_id FOREIGN KEY(user_id) REFERENCES users(id) ON DELETE CASCADE
 );
+
+-- 12/16/20
+ALTER TABLE
+    inputs
+ADD
+    COLUMN order_status varchar(40);
 
 DROP TABLE IF EXISTS order_details CASCADE;
 
