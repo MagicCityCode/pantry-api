@@ -3,7 +3,7 @@ import pool from '../db';
 import type { TUsers } from '../db/models';
 
 // Soon abstract type to interface
-function createUser(email: string, pw: string, firstName: string, lastName: string) {
+function createUser(email: string, pw: string, firstName: string, lastName: string): unknown {
   const queryCreateUser = new Promise((resolve, reject) => {
     pool.query(
       'INSERT INTO users (email, pw, first_name, last_name) VALUES ($1, $2, $3, $4) RETURNING *;',
@@ -43,7 +43,7 @@ function readUsers(id?: number): unknown {
 }
 
 // Soon abstract type to interface
-function updateUser(email: string, pw: string, firstName: string, lastName: string, id: number) {
+function updateUser(email: string, pw: string, firstName: string, lastName: string, id: number): unknown {
   const queryUpdateUser = new Promise((resolve, reject) => {
     pool.query(
       'UPDATE users SET email = $1, pw = $2, first_name = $3, last_name = $4 WHERE id = $5 RETURNING *;',
@@ -59,7 +59,7 @@ function updateUser(email: string, pw: string, firstName: string, lastName: stri
   return queryUpdateUser;
 }
 
-function deleteUser(id: number) {
+function deleteUser(id: number): unknown {
   const queryDeleteUser = new Promise((resolve, reject) => {
     pool.query('DELETE FROM users WHERE id = $1 RETURNING *;', [id], (err, result) => {
       if (err) reject(err);
@@ -90,15 +90,6 @@ function findUserByEmail(email: string): unknown {
 //     .query('SELECT * FROM users WHERE email = test@test.com;')
 //     .then((res) => console.log(res));
 // }
-
-// type user = {
-//   id: number;
-//   email: string;
-//   pw: string;
-//   first_name: string;
-//   last_name: string;
-//   _created: string;
-// };
 
 export default {
   createUser,
