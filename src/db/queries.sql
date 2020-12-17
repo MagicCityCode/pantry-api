@@ -1,5 +1,6 @@
 -- User's available (uncommitted & unexpired) inventory
--- Note: Items committed to meals will be offset via a regular cleanup inverse transaction equivalent to meals' recipes' required ingredients * quantity, eliminating need to account for depletion here)
+-- Note: Items committed to meals will be offset via a regular cleanup inverse transaction equivalent to meals' recipes' required ingredients * quantity, eliminating need to account for depletion here
+-- Note: Items used (ie items committed to meals whose scheduled timeslot has already transpired) will be offset via a regular cleanup inverse transaction similarly to above
 DROP TABLE IF EXISTS temp_table_1;
 
 CREATE TEMP TABLE temp_table_1 AS
@@ -97,12 +98,6 @@ FROM
     temp_table_3
 WHERE
     days_until_expiration >= 0;
-
-DROP TABLE temp_table_1;
-
-DROP TABLE temp_table_2;
-
-DROP TABLE temp_table_3;
 
 -- User's [planned but uneaten] upcoming meals
 SELECT
