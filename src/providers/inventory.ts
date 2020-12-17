@@ -1,7 +1,8 @@
 import pool from '../db';
 import { TUserInventory } from '../db/models';
 
-function readUserInventory(userId: number): unknown {
+// This inventory is comprised of anything that's been received, not committed to a meal past or future, and not expired
+function readUserAvailableInventory(userId: number): unknown {
   const queryReadUserInventory = new Promise<TUserInventory[]>((resolve, reject) => {
     pool.query(
       `DROP TABLE IF EXISTS temp_table_1;
@@ -93,10 +94,7 @@ function readUserInventory(userId: number): unknown {
        FROM
            temp_table_3
        WHERE
-           days_until_expiration >= 0;
-       DROP TABLE temp_table_1;
-       DROP TABLE temp_table_2;
-       DROP TABLE temp_table_3;`,
+           days_until_expiration >= 0;`,
       [userId],
       (err, results) => {
         if (err) reject(err);
@@ -107,6 +105,18 @@ function readUserInventory(userId: number): unknown {
   return queryReadUserInventory;
 }
 
+// Placeholder for future query once commitment data-update method changed
+// function readUserInventoryCommittedAndUncommitted(userId: number): unknown {
+//   const queryReadUserInventory = new Promise<TUserInventory[]>((resolve, reject) => {
+//     pool.query(`PLACEHOLDER`, [userId], (err, results) => {
+//       if (err) reject(err);
+//       else resolve(results.rows);
+//     });
+//   });
+//   return queryReadUserInventory;
+// }
+
 export default {
-  readUserInventory,
+  readUserAvailableInventory,
+  // readUserInventoryCommittedAndUncommitted,
 };
