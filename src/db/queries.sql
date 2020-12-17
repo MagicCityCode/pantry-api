@@ -76,6 +76,8 @@ GROUP BY
 ORDER BY
     Days_Since_Stored ASC;
 
+DROP TABLE IF EXISTS temp_table_3;
+
 CREATE TEMP TABLE temp_table_3 AS
 SELECT
     tt2.item,
