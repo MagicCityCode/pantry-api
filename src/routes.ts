@@ -23,7 +23,16 @@ router.delete(
   ingredients.handleIngredientsDelete,
 );
 // INVENTORY
-router.get('/inventory/:id', passport.authenticate('jwt'), inventory.handleUserInventoryGet);
+router.get(
+  '/available-inventory/:id',
+  passport.authenticate('jwt'),
+  inventory.handleUserAvailableInventoryGet,
+);
+// router.get(
+//   '/inventory-all-unexpired-regardless-of-commitment-status/:id',
+//   passport.authenticate('jwt'),
+//   inventory.handleUserAllUnexpiredInventoryGet,
+// );
 // SPOONACULAR
 router.get('/joke', spoonacular.handleJokeGet);
 router.post('/recipes-by-ingredients', spoonacular.handleFindRecipesByIngredientsGet);

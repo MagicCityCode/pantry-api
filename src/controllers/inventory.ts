@@ -1,15 +1,32 @@
 import inventoryQueries from '../providers/inventory';
 
-const handleUserInventoryGet = async (req: any, res: any, next: any): Promise<unknown> => {
+const handleUserAvailableInventoryGet = async (req: any, res: any, next: any): Promise<unknown> => {
   try {
     const id = Number(req.params.id);
-    const oneIngredient: unknown = await inventoryQueries.readUserInventory(id);
+    const oneIngredient: unknown = await inventoryQueries.readUserAvailableInventory(id);
     return res.status(200).json(oneIngredient);
   } catch (err) {
     return next(err);
   }
 };
 
+// const handleUserAllUnexpiredInventoryGet = async (
+//   req: any,
+//   res: any,
+//   next: any,
+// ): Promise<unknown> => {
+//   try {
+//     const id = Number(req.params.id);
+//     const oneIngredient: unknown = await inventoryQueries.readUserInventoryCommittedAndUncommitted(
+//       id,
+//     );
+//     return res.status(200).json(oneIngredient);
+//   } catch (err) {
+//     return next(err);
+//   }
+// };
+
 export default {
-  handleUserInventoryGet,
+  handleUserAvailableInventoryGet,
+  // handleUserAllUnexpiredInventoryGet,
 };
