@@ -1,6 +1,7 @@
 import express from 'express';
 import passport from 'passport';
 import ingredients from './controllers/ingredients';
+import inventory from './controllers/inventory';
 import users from './controllers/users';
 import spoonacular from './controllers/spoonacular';
 import { ReqUser } from './utils/interfaces';
@@ -21,6 +22,8 @@ router.delete(
   passport.authenticate('jwt'),
   ingredients.handleIngredientsDelete,
 );
+// INVENTORY
+router.get('/inventory/:id', passport.authenticate('jwt'), inventory.handleUserInventoryGet);
 // SPOONACULAR
 router.get('/joke', spoonacular.handleJokeGet);
 router.post('/recipes-by-ingredients', spoonacular.handleFindRecipesByIngredientsGet);
