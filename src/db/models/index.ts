@@ -18,4 +18,12 @@ export interface TUsers {
   _created: string;
 }
 
-// Add the rest soon
+export interface TIngredients {
+  id: number;
+  name: string;
+  shelfLife: number;
+  storage: string;
+  uom: string;
+  _created: Date;
+  shelfLifeUnit: string;
+}
