@@ -1,5 +1,4 @@
 import pool from '../db';
-import { TIngredients } from '../db/models';
 
 function createIngredient(
   name: string,
@@ -23,18 +22,18 @@ function createIngredient(
 
 function readIngredients(id?: number): unknown {
   if (id) {
-    const queryReadOneIngredient = new Promise<TIngredients>((resolve, reject) => {
+    const queryReadOneIngredient = new Promise((resolve, reject) => {
       pool.query('SELECT * FROM ingredients WHERE id = $1;', [id], (err, result) => {
         if (err) reject(err);
-        else resolve(result.rows[0]);
+        else resolve(result);
       });
     });
     return queryReadOneIngredient;
   }
-  const queryReadAllIngredients = new Promise<TIngredients[]>((resolve, reject) => {
+  const queryReadAllIngredients = new Promise((resolve, reject) => {
     pool.query('SELECT * FROM ingredients;', (err, results) => {
       if (err) reject(err);
-      else resolve(results.rows);
+      else resolve(results);
     });
   });
   return queryReadAllIngredients;
