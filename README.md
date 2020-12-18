@@ -8,7 +8,7 @@
   - `JWT_SECRET` - jwt secret key
   - `JWT_EXPIRES` - jwt expiration length
 - `src/controllers/spoonacular.ts`
-  - `REACT_APP_SPOONACULAR_KEY` - API access key for [Spoonacular](https://spoonacular.com/food-api)
+  - `SPOONACULAR_KEY` - API access key for [Spoonacular](https://spoonacular.com/food-api)
 - `src/db/index.ts` - postgres credentials
   - `PGUSER`
   - `PGHOST`
