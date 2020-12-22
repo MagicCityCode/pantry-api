@@ -1,16 +1,22 @@
 -- User's available (uncommitted & unexpired) inventory
 -- Note: Items committed to meals will be offset via a regular cleanup inverse transaction equivalent to meals' recipes' required ingredients * quantity, eliminating need to account for depletion here
 -- Note: Items used (ie items committed to meals whose scheduled timeslot has already transpired) will be offset via a regular cleanup inverse transaction similarly to above
-DROP TABLE IF EXISTS temp_table_1;
-
-CREATE TEMP TABLE temp_table_1 AS
 SELECT
     ig.name AS Item,
     SUM(od.qty) AS Quantity,
     ig.uom AS Unit_of_Measure,
-    ig._created AS Item_Stored_Date,
-    NOW() AS Now,
-    ig.shelf_life AS Shelf_Life
+    ig.shelf_life - ROUND(
+        EXTRACT(
+            EPOCH
+            FROM
+                NOW()
+        ) / 86400 -- <<< Convert shelf life days to seconds via 60 seconds * 60 minutes * 24 hours per day = 86,400 seconds per day (wrap this in a conditional if start using anything other than default days for shelf life)
+        - EXTRACT(
+            EPOCH
+            FROM
+                ig._created
+        ) / 86400
+    ) AS Days_Until_Expiration
 FROM
     ingredients ig
     RIGHT JOIN order_details od ON ig.id = od.ingredient_id
@@ -18,6 +24,19 @@ FROM
     LEFT JOIN users u ON ip.user_id = u.id
 WHERE
     u.id = '$1' -- <<< Authenticated user which will be an escape key
+    AND ig.shelf_life - ROUND(
+        EXTRACT(
+            EPOCH
+            FROM
+                NOW()
+        ) / 86400 - EXTRACT(
+            EPOCH
+            FROM
+                ig._created
+        ) / 86400
+    ) >= 0
+    AND od.qty > 0
+    AND od.qty IS NOT NULL
     AND NOT EXISTS(
         SELECT
             *
@@ -30,8 +49,7 @@ WHERE
                     EPOCH
                     FROM
                         ip._created
-                ) / 86400 -- <<< Convert shelf life days to seconds via 60 seconds * 60 minutes * 24 hours per day = 86,400 seconds per day (wrap this in a conditional if start using anything other than default days for shelf life)
-                + 3 -- <<< See note above on MVP logic plug for items ordered that must ship non locally
+                ) / 86400 + 3 -- <<< See note above on MVP logic plug for items ordered that must ship non locally
             ) < EXTRACT(
                 EPOCH
                 FROM
@@ -39,62 +57,9 @@ WHERE
             ) / 86400
     )
 GROUP BY
-    Item,
-    Unit_of_Measure,
+    ig.name,
+    ig.uom,
     ig._created,
-    ig.shelf_life;
-
-DROP TABLE IF EXISTS temp_table_2;
-
-CREATE TEMP TABLE temp_table_2 AS
-SELECT
-    tt1.item,
-    SUM(tt1.quantity) AS Quantity,
-    tt1.unit_of_measure,
-    ROUND(
-        SUM(
-            EXTRACT(
-                EPOCH
-                FROM
-                    tt1.now
-            ) - EXTRACT(
-                EPOCH
-                FROM
-                    tt1.item_stored_date
-            )
-        ) / 86400 -- <<< Convert shelf life days to seconds via 60 seconds * 60 minutes * 24 hours per day = 86,400 seconds per day (wrap this in a conditional if start using anything other than default days for shelf life)
-    ) AS Days_Since_Stored,
-    tt1.shelf_life AS Shelf_Life
-FROM
-    temp_table_1 tt1
-WHERE
-    tt1.Quantity > 0
-    AND tt1.Quantity IS NOT NULL
-GROUP BY
-    tt1.item,
-    tt1.unit_of_measure,
-    tt1.shelf_life
+    ig.shelf_life
 ORDER BY
-    Days_Since_Stored ASC;
-
-DROP TABLE IF EXISTS temp_table_3;
-
-CREATE TEMP TABLE temp_table_3 AS
-SELECT
-    tt2.item,
-    tt2.quantity,
-    tt2.unit_of_measure,
-    SUM(tt2.shelf_life - tt2.days_since_stored) AS Days_Until_Expiration
-FROM
-    temp_table_2 tt2
-GROUP BY
-    tt2.item,
-    tt2.quantity,
-    tt2.unit_of_measure;
-
-SELECT
-    *
-FROM
-    temp_table_3
-WHERE
-    days_until_expiration >= 0;
+    Days_Until_Expiration ASC;
