@@ -27,7 +27,7 @@ function readUserAvailableInventory(userId: number): unknown {
           LEFT JOIN inputs ip ON od.input_id = ip.id
           LEFT JOIN users u ON ip.user_id = u.id
       WHERE
-          u.id = 1
+          u.id = $1
           AND ig.shelf_life - ROUND(
               EXTRACT(
                   EPOCH
