@@ -66,6 +66,8 @@ function readUserAvailableInventory(userId: number): unknown {
           ig._created,
           ig.shelf_life
       ORDER BY
+          Item ASC,
+          Unit_of_Measure ASC,
           Days_Until_Expiration ASC;
       `,
       [userId],
