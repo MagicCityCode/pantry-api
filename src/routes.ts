@@ -25,7 +25,7 @@ router.delete(
 // INVENTORY
 router.get(
   '/available-inventory/:id',
-  passport.authenticate('jwt'),
+  // passport.authenticate('jwt'),
   inventory.handleUserAvailableInventoryGet,
 );
 // router.get(
