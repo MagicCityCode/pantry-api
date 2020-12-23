@@ -4,7 +4,7 @@ const handleUserAvailableInventoryGet = async (req: any, res: any, next: any) =>
   try {
     const id = Number(req.params.id);
     const inventory: any = await inventoryQueries.readUserAvailableInventory(id);
-    return res.status(200).json(inventory[3].rows);
+    return res.status(200).json(inventory.rows);
   } catch (err) {
     return next(err);
   }
