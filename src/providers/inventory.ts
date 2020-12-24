@@ -7,6 +7,8 @@ function readUserAvailableInventory(userId: number): unknown {
     pool.query(
       `
       SELECT
+          ip.id AS Input_ID,
+          ig.id AS Ingredient_ID,
           ig.name AS Item,
           SUM(od.qty) AS Quantity,
           ig.uom AS Unit_of_Measure,
@@ -64,7 +66,9 @@ function readUserAvailableInventory(userId: number): unknown {
           ig.name,
           ig.uom,
           ig._created,
-          ig.shelf_life
+          ig.shelf_life,
+          ip.id,
+          ig.id
       ORDER BY
           Item ASC,
           Unit_of_Measure ASC,

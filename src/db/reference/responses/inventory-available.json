@@ -1,0 +1,10 @@
+[
+  {
+    "input_id": "number",
+    "ingredient_id": "number",
+    "item": "string",
+    "quantity": "string/num",
+    "unit_of_measure": "string",
+    "days_until_expiration": "number"
+  }
+]
