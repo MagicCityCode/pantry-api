@@ -4,6 +4,7 @@ import ingredients from './controllers/ingredients';
 import inventory from './controllers/inventory';
 import users from './controllers/users';
 import spoonacular from './controllers/spoonacular';
+import amazonFresh from './controllers/amazonFresh';
 import { ReqUser } from './utils/interfaces';
 import createToken from './utils/tokens';
 
@@ -22,6 +23,7 @@ router.delete(
   passport.authenticate('jwt'),
   ingredients.handleIngredientsDelete,
 );
+
 // INVENTORY
 router.get(
   '/available-inventory/:id',
@@ -33,9 +35,14 @@ router.get(
 //   passport.authenticate('jwt'),
 //   inventory.handleUserAllUnexpiredInventoryGet,
 // );
+
 // SPOONACULAR
 router.get('/joke', spoonacular.handleJokeGet);
 router.post('/recipes-by-ingredients', spoonacular.handleFindRecipesByIngredientsGet);
+
+// AMAZON FRESH
+router.post('/populate-amazon-cart', amazonFresh.handleIngredients);
+
 // USERS/AUTH
 router.post('/register', users.handleUsersPost);
 router.get('/users/:id?', users.handleUsersGet);
