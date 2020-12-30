@@ -26,15 +26,15 @@ router.delete(
 
 // INVENTORY
 router.get(
-  '/available-inventory/:id',
+  '/available-inventory-with-expiration/:id',
   // passport.authenticate('jwt'),
-  inventory.handleUserAvailableInventoryGet,
+  inventory.handleUserAvailableInventoryWithDaysTillExpirationGet,
 );
-// router.get(
-//   '/inventory-all-unexpired-regardless-of-commitment-status/:id',
-//   passport.authenticate('jwt'),
-//   inventory.handleUserAllUnexpiredInventoryGet,
-// );
+router.get(
+  '/available-inventory-without-expiration/:id',
+  // passport.authenticate('jwt'),
+  inventory.handleUserAllUnexpiredInventoryRegardlessOfDaysTillExpirationGet,
+);
 
 // SPOONACULAR
 router.get('/joke', spoonacular.handleJokeGet);
